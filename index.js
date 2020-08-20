@@ -5,7 +5,7 @@ const handlebars = require("handlebars");
 const inert = require("@hapi/inert");
 const path = require("path");
 const vision = require("vision");
-const { dirname } = require("path");
+const routes = require("./routes");
 
 const init = async () => {
   const server = hapi.server({
@@ -31,45 +31,7 @@ const init = async () => {
     layoutPath: "views",
   });
 
-  server.route({
-    method: "GET",
-    path: "/",
-    handler: (request, h) => {
-      return h.view("index", {
-        title: "home",
-      });
-    },
-  });
-
-  server.route({
-    method: "GET",
-    path: "/register",
-    handler: (request, h) => {
-      return h.view("register", {
-        title: "Registro",
-      });
-    },
-  });
-
-  server.route({
-    method: "POST",
-    path: "/create-user",
-    handler: (request, h) => {
-      console.log(request.payload);
-      return "Usuario creado exitosamente";
-    },
-  });
-
-  server.route({
-    method: "GET",
-    path: "/{param*}",
-    handler: {
-      directory: {
-        path: ".",
-        index: ["index.html"],
-      },
-    },
-  });
+  server.route(routes);
 
   await server.start();
   console.log(`Servidor lanzado en: ${server.info.uri}`);

@@ -156,3 +156,9 @@ Ciclo de vida del objeto **request**, se refiere a los eventos que suceden duran
 - OnPreResponse
 
 Más información sobre el ciclo de vida del objeto **request** en el repositorio oficial del proyecto: [Hapi repository](https://github.com/hapijs/hapi/blob/master/API.md#request-lifecycle)
+
+### Definir una mejor estructura con buenas prácticas en Hapi
+
+Con el fin de tener una mejor organización de los archivos de nuestro proyecto, y considerando que estamos trabajando con la arquitectura _MVC_, haremos una primera refactorización del código.
+
+Creamos el directorio `/controllers` para colocar los _controladores site y user_ de nuestro proyecto. Pasamos la definición de las rutas a su propio módulo `routes.js` como un arreglo que exportaremos más adelante. Distribuímos los _handlers_ asociados a cada _vista_ en la definición de las _rutas_ hacia el archivo del _controlador_ para cada contexto, ya sea _site_ o _user_. Requerimos los controladores desde el módulo de rutas, y fnalmente importamos la definición de rutas desde el `index.js` y las asociamos al _server_ con `server.route(routes)`.
