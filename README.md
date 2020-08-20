@@ -87,3 +87,49 @@ const path = require("path");
 ```
 
 El plugin **Inert** extiende los métodos disponibles en el _objeto h_, y **Path** nos permite definir una ubicación relativa para todos los **routes** de nuestro proyecto, entre otras cosas.
+
+### Plantillas con Handlebars
+
+Las _plantillas_ son generalmente archivos _html_ con marcadores particulares que permiten la inserción de variables y la ejecución de algunas instrucciones de programación, antes de ser renderizados. Esta interpretación previa la realiza un plugin conocido como **motor de plantillas**, como es el caso de **Handlebars**.
+
+Para incluir variables o instrucciones de código con **Handlebars** es necesario el uso de dobles llaves (o _curly braces_). Un bloque de _html_ con **Handlebars** sería algo como lo siguiente:
+
+```js
+<div class=""post"">
+  <h1>Author: {{fullName author}}</h1>
+  <div class=""body"">{{body}}</div>
+
+  <h1>Comments</h1>
+
+  {{#each comments}}
+  <h2>By {{fullName author}}</h2>
+  <div class=""body"">{{body}}</div>
+  {{/each}}
+</div>
+```
+
+Los _bloques de instrucción_ en **Handlebars** comienzan con **#** y se cierran con **/**.
+
+Para más información, recuerda consultar la documentación oficial en [http://handlebarsjs.com/](http://handlebarsjs.com/) y así conocer mucho más de las opciones que te brinda este potente motor de plantillas.
+
+### Renderizado de vistas - Layout y template del home
+
+En **Hapi** podemos usar la arquitectura _MVC (Modelo-Vista-Controlador)_ para organizar la lógica de nuestras aplicaciones. Para implementar el uso de _vistas_ es necesario instalar el plugin **Vision** y configurarlo de la siguiente manera:
+
+```js
+server.views({
+  engines: {              // Hapi puede usar diferentes engines
+    hbs: handlebars,      // Asociamos el plugin al tipo de archivos
+  },
+  relativeTo: __dirname,  // Para que las vistas las busque fuera de /public
+  path: "views",          // Directorio donde colocaremos las vistas dentro de nuestro proyecto
+  layout: true,           // Indica que usaremos layouts
+  layoutPath: "views",    // Ubicación de los layouts
+});
+```
+
+Al crear el archivo **layout.hbs** evitaremos repetir las mismas secciones de html en cada una de las vistas, remplazando sólo lo relativo al contenido que cambiará según las rutas definidas en nuestra aplicación.
+
+En la definición de las rutas, tendremos que cambiar la respuesta devuelta en _handler_ para que invoque a **h.view()** en lugar de **h.file()**, con los parámetros esperados por el layout.
+
+Para poder incorporar el html de las vistas dentro del _layout.hbs_, es necesario usar **triples llaves** en lugar de **dobles**, ya que por defecto Handlebars escapa el código _html_ convirtiéndolo en su equivalente texto plano.
