@@ -61,3 +61,18 @@ server.route({
 ```
 
 La propiedad _method_ indica si el request esperado es de tipo _GET_ o _POST_, y el _path_ es la url relativa asociada a esta ruta definida. El _handler_ es la función que manejará la respuesta que se enviará al navegador.
+
+### El objeto h, response y sus herramientas
+
+El objeto **h**, es el segundo argumento que recibe la función _handler_ de una ruta definida.
+
+Contiene una colección de utilidades y propiedades relativas a la información de respuesta que se va a enviar al cliente, al navegador.
+
+Métodos básicos del objeto h:
+
+- h.**response**(): Crea un objeto de respuesta.
+- h.**redirect**(): Redirecciona una petición.
+
+El objeto **Response** (creado con el método _h.response_), permite definir las propiedades de la respuesta. A través de este objeto se pueden especificar las cabeceras, tipo de documento y código de respuesta devuelto al cliente, mediante los métodos: .header(), .type() y .code()
+
+Código: Ejemplo de respuesta simple y redirect.

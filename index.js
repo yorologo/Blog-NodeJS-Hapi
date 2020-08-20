@@ -12,7 +12,15 @@ const init = async () => {
     method: "GET",
     path: "/",
     handler: (request, h) => {
-      return "Hola mundo!";
+      return h.response("Hola mundo...").code(200);
+    },
+  });
+
+  server.route({
+    method: "GET",
+    path: "/redirect",
+    handler: (request, h) => {
+      return h.redirect("https://hapi.dev/");
     },
   });
 
