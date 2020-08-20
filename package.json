@@ -1,0 +1,26 @@
+{
+  "name": "practica-nodejs-hapi",
+  "version": "0.1.0",
+  "description": "Proyecto para crear un Blog web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon",
+    "lint": "standard",
+    "lint-fix": "standard --fix"
+  },
+  "keywords": [
+    "blog",
+    "nodejs",
+    "hapi"
+  ],
+  "author": "yorologo",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^20.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "standard": "^14.3.4"
+  }
+}
