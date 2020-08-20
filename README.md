@@ -75,4 +75,15 @@ Métodos básicos del objeto h:
 
 El objeto **Response** (creado con el método _h.response_), permite definir las propiedades de la respuesta. A través de este objeto se pueden especificar las cabeceras, tipo de documento y código de respuesta devuelto al cliente, mediante los métodos: .header(), .type() y .code()
 
-Código: Ejemplo de respuesta simple y redirect.
+### Uso de plugins - Contenido estático
+
+Los **plugins** son módulos o archivos de Javascript creados generalmente por terceros, que le adicionan funcionalidades al framework base de **Hapi**.
+Para implementar un _plugin_ nuevo a nuestro proyecto, lo primero es importarlo en el index.js con la función **requier()** de NodeJS. Luego es necesario registrarlo con `await server.register(plugin)`.
+Por el momento, incluiremos en nuestro proyecto los plugins de **Inert** y **Path**
+
+```js
+const inert = require("inert");
+const path = require("path");
+```
+
+El plugin **Inert** extiende los métodos disponibles en el _objeto h_, y **Path** nos permite definir una ubicación relativa para todos los **routes** de nuestro proyecto, entre otras cosas.

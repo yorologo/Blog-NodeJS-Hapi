@@ -17,7 +17,8 @@
   "author": "yorologo",
   "license": "ISC",
   "dependencies": {
-    "@hapi/hapi": "^20.0.0"
+    "@hapi/hapi": "^20.0.0",
+    "@hapi/inert": "^6.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",
