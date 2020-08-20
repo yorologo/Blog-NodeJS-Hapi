@@ -133,3 +133,26 @@ Al crear el archivo **layout.hbs** evitaremos repetir las mismas secciones de ht
 En la definición de las rutas, tendremos que cambiar la respuesta devuelta en _handler_ para que invoque a **h.view()** en lugar de **h.file()**, con los parámetros esperados por el layout.
 
 Para poder incorporar el html de las vistas dentro del _layout.hbs_, es necesario usar **triples llaves** en lugar de **dobles**, ya que por defecto Handlebars escapa el código _html_ convirtiéndolo en su equivalente texto plano.
+
+### Recibiendo parámetros en una ruta POST - Creación del registro
+
+El objeto **request** nos permite obtener datos de la petición recibida desde el cliente. El método pasado como parámetro para la creación de este objeto define si trabajaremos con GET o POST.
+
+Proipiedades del **request**:
+
+- request.path
+- request.method
+- request.get
+- request.payload: es en esta propiedad donde recibimos los datos enviados con el método POST.
+
+Ciclo de vida del objeto **request**, se refiere a los eventos que suceden durante la carga, existencia y descarga del objeto:
+
+- OnRequest
+- OnPreAuth
+- OnCredentials
+- OnPostAuth
+- OnPreHandler
+- OnPostHandler
+- OnPreResponse
+
+Más información sobre el ciclo de vida del objeto **request** en el repositorio oficial del proyecto: [Hapi repository](https://github.com/hapijs/hapi/blob/master/API.md#request-lifecycle)
