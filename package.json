@@ -19,7 +19,10 @@
   "dependencies": {
     "@hapi/hapi": "^20.0.0",
     "@hapi/inert": "^6.0.2",
+    "bcrypt": "^5.0.0",
+    "firebase-admin": "^9.1.1",
     "handlebars": "^4.7.6",
+    "joi": "^17.2.1",
     "vision": "^5.4.4"
   },
   "devDependencies": {

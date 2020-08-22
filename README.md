@@ -162,3 +162,23 @@ Más información sobre el ciclo de vida del objeto **request** en el repositori
 Con el fin de tener una mejor organización de los archivos de nuestro proyecto, y considerando que estamos trabajando con la arquitectura _MVC_, haremos una primera refactorización del código.
 
 Creamos el directorio `/controllers` para colocar los _controladores site y user_ de nuestro proyecto. Pasamos la definición de las rutas a su propio módulo `routes.js` como un arreglo que exportaremos más adelante. Distribuímos los _handlers_ asociados a cada _vista_ en la definición de las _rutas_ hacia el archivo del _controlador_ para cada contexto, ya sea _site_ o _user_. Requerimos los controladores desde el módulo de rutas, y fnalmente importamos la definición de rutas desde el `index.js` y las asociamos al _server_ con `server.route(routes)`.
+
+### Validando la información - Implementando Joi
+
+La validación de los datos suministrados por el usuario puede hacerse tanto en el _frontend_ como en el _backend_, incluso puede hacerse en ambos lados, lo cual se recomienda.
+
+Para hacer la validación de información en el _backend_, Hapi cuenta con un módulo llamado **Joi** que ofrece múltiples condiciones de validación, como: tipo de dato, mínimos y máximos, condiciones personalizadas, etc.
+
+**Joi** nos permite generar validación de un esquema específico en Hapi en el mismo momento en que se definen las _rutas_.
+
+Luego de instalar y requerir el módulo en el arhivo _routes.js_ será necesario agregar la propiedad _options_ que contiene a su vez _validate_ y luego _payload_, en esta caso porque los datos serán recibidos por POST, allí definimos entonces las condiciones de validación para cada dato esperado.
+
+### Introducción a Firebase
+
+Ya teniendo validada la información que recibimos del usuario, el siguiente paso es almacenarla para su posterior recuperación. Para esto haremos uso del servicio de base de datos de **Firebase / Storage** con una configuración básica.
+
+El proceso de creación y configuración de la base de datos se hace a través del sitio web [https://firebase.google.com](https://firebase.google.com/) mediante la consola de administración, accediendo con una cuenta Google y creando un proyecto nuevo. En la sección de Configuración / Cuentas de Servicio, generamos las credenciales de acceso para NodeJS en formato json, que usaremos en nuestro proyecto, en la siguiente clase.
+
+### Creando un modelo y guardando en firebase
+
+Para implementar el uso de la base de datos de Firebase en nuestro proyecto, crearemos el directorio `/config` para guardar el archivo _json_ con las credenciales de acceso al servicio, y el directorio `/models` con los modelos asociados a las diferentes entidades que requiere nuestra aplicación. Instalamos desde la terminal el módulo `firebase-admin` con npm. Requerimos el módulo en el index.js del directorio `/models` e invocamos el método `firebase.initializeApp()`
