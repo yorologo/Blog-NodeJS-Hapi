@@ -182,3 +182,11 @@ El proceso de creación y configuración de la base de datos se hace a través d
 ### Creando un modelo y guardando en firebase
 
 Para implementar el uso de la base de datos de Firebase en nuestro proyecto, crearemos el directorio `/config` para guardar el archivo _json_ con las credenciales de acceso al servicio, y el directorio `/models` con los modelos asociados a las diferentes entidades que requiere nuestra aplicación. Instalamos desde la terminal el módulo `firebase-admin` con npm. Requerimos el módulo en el index.js del directorio `/models` e invocamos el método `firebase.initializeApp()`
+
+### Implementando el login y validación del usuario
+
+Teniendo el modelo de Usuario ya definido, podemos pasar a la implementación del Login, para lo cual creamos una nueva vista y agregaremos un método en el controlador, además de las rutas correspondientes para el login y la validación de usuarios.
+
+Al hacer un _query_ sobre los registros almacenados en Firebase, el resultado devuelto es un objeto JSON con los resultados, en los que las keys de cada elemento corresponden con los IDs de cada usuario. Aún cuando el resultado devuelto es sólo un registro, la estructura es la misma.
+
+Es importante tener en cuenta que al recuperar los datos desde Firebase, la contraseña viene cifrada, por lo que la validación debe hacerse comparando ambos datos con _bcrypt_.

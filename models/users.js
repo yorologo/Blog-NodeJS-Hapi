@@ -17,7 +17,7 @@ class Users {
     //     name: 'Fulano Gomez',
     //     email: 'correo@email.com',
     //     password: 'secreto' }
-    
+
     const user = {
       ...data,
     };
@@ -26,6 +26,29 @@ class Users {
     newUser.set(user);
 
     return newUser.key;
+  }
+
+  async validate(data) {
+    const user = {
+      ...data,
+    };
+    const userQuery = await this.collection
+      .orderByChild("email")
+      .equalTo(user.email)
+      .once("value");
+    const userFound = userQuery.val();
+    if (userFound) {
+      const userId = Object.keys(userFound)[0];
+      const passwordRight = await bcrypt.compare(
+        user.password,
+        userFound[userId].password
+      );
+      if (passwordRight) {
+        return userFound[userId];
+      }
+      throw new Error("Las contraseñas no coinciden");
+    }
+    throw new Error("Usuario no encontrado");
   }
 
   static async encrypt(password) {

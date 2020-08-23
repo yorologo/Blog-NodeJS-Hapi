@@ -34,6 +34,27 @@ module.exports = [
   },
   {
     method: "GET",
+    path: "/login",
+    handler: site.login,
+  },
+  {
+    method: "POST",
+    options: {
+      validate: {
+        payload: joi.object({
+          password: joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+          email: joi.string().email({
+            minDomainSegments: 2,
+            tlds: { allow: ["com", "net"] },
+          }),
+        }),
+      },
+    },
+    path: "/validate-user",
+    handler: user.validatedUser,
+  },
+  {
+    method: "GET",
     path: "/{param*}",
     handler: {
       directory: {

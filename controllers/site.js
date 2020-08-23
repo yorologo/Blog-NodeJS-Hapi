@@ -12,7 +12,14 @@ const registro = (request, h) => {
   });
 };
 
+const acceso = (request, h) => {
+  return h.view("login", {
+    title: "Acceso",
+  });
+};
+
 module.exports = {
   home: home,
   register: registro,
+  login: acceso,
 };
