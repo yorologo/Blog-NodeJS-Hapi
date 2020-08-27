@@ -17,14 +17,23 @@ const validarUsuario = async (request, h) => {
   let result;
   try {
     result = await Users.validate(request.payload);
+    if (!result) return h.response("Email y/o contraseña incorrecta").code(401);
   } catch (error) {
     console.error(error);
     return h.response("Problemas validando el usuario").code(500);
   }
-  return h.response(result);
+  return h.redirect("/").state("user", {
+    name: result.name,
+    email: result.email,
+  });
+};
+
+const cerrarSesion = async (request, h) => {
+  return h.redirect("/login").unstate("user");
 };
 
 module.exports = {
   createdUser: usuarioCreado,
   validatedUser: validarUsuario,
+  logoutUser: cerrarSesion,
 };

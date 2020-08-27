@@ -46,9 +46,9 @@ class Users {
       if (passwordRight) {
         return userFound[userId];
       }
-      throw new Error("Las contraseñas no coinciden");
+      return false;
     }
-    throw new Error("Usuario no encontrado");
+    return false;
   }
 
   static async encrypt(password) {

@@ -190,3 +190,11 @@ Teniendo el modelo de Usuario ya definido, podemos pasar a la implementación de
 Al hacer un _query_ sobre los registros almacenados en Firebase, el resultado devuelto es un objeto JSON con los resultados, en los que las keys de cada elemento corresponden con los IDs de cada usuario. Aún cuando el resultado devuelto es sólo un registro, la estructura es la misma.
 
 Es importante tener en cuenta que al recuperar los datos desde Firebase, la contraseña viene cifrada, por lo que la validación debe hacerse comparando ambos datos con _bcrypt_.
+
+### Autenticación de usuarios - Cookies y estado
+
+Hay diferentes maneras de mantener el estado de autenticación de un usuario en un sistema. Para este proyecto usaremos la forma más sencilla que es a través de una _cookie_ y usando el _state_ de Hapi.
+
+Con la función `server.state( '<nombre de la cookie>', { <opciones> } )` definimos las características de la _ cookie_ que usaremos en la ruta definida para hacer la validación. Luego asignaremos los datos propios de la autenticación a esta _cookie_ en el controlador, en la misma instrucción en la que hacemos el _redirect_ al Home, luego de validado el usuario.
+
+Habiendo guardado el estado de la autenticación, podemos definir entonces diferentes opciones en el _Layout_ que nos permitan por ejemplo, hacer _Logout_ y mostrar la información del usuario, entre otras cosas.
