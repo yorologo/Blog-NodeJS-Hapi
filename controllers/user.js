@@ -1,5 +1,6 @@
 "use strict";
 
+const boom = require("@hapi/boom");
 const { Users } = require("../models/index");
 
 const usuarioCreado = async (request, h) => {
@@ -28,6 +29,10 @@ const validarUsuario = async (request, h) => {
   });
 };
 
+const validacionFallida = async (request, h, error) => {
+  boom.badRequest("La validacion del usuario ha fallado", req.payload);
+};
+
 const cerrarSesion = async (request, h) => {
   return h.redirect("/login").unstate("user");
 };
@@ -36,4 +41,5 @@ module.exports = {
   createdUser: usuarioCreado,
   validatedUser: validarUsuario,
   logoutUser: cerrarSesion,
+  failValidation: validacionFallida,
 };

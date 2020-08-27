@@ -8,6 +8,9 @@ const home = (request, h) => {
 };
 
 const registro = (request, h) => {
+  if (request.state.user) {
+    return h.redirect("/");
+  }
   return h.view("register", {
     title: "Registro",
     user: request.state.user,
@@ -15,6 +18,9 @@ const registro = (request, h) => {
 };
 
 const acceso = (request, h) => {
+  if (request.state.user) {
+    return h.redirect("/");
+  }
   return h.view("login", {
     title: "Acceso",
     user: request.state.user,

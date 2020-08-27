@@ -198,3 +198,11 @@ Hay diferentes maneras de mantener el estado de autenticación de un usuario en 
 Con la función `server.state( '<nombre de la cookie>', { <opciones> } )` definimos las características de la _ cookie_ que usaremos en la ruta definida para hacer la validación. Luego asignaremos los datos propios de la autenticación a esta _cookie_ en el controlador, en la misma instrucción en la que hacemos el _redirect_ al Home, luego de validado el usuario.
 
 Habiendo guardado el estado de la autenticación, podemos definir entonces diferentes opciones en el _Layout_ que nos permitan por ejemplo, hacer _Logout_ y mostrar la información del usuario, entre otras cosas.
+
+### Manejando errores
+
+Para el manejo general de errores con Hapi usamos la instrucción `process.on( '<tipo de error>', ( <error> ) => { <callback> } )` en el script principal. En el _callback_ de la función, **error** devuelve un objeto con los detalles del error capturado. Los tipos de errores que vamos a manejar en el proyecto son: `unhandledRejection` y `unhandledException`. Estos dos tipos de errores son los más comunes y los que se aconseja manejar como mínimo en cualquier aplicación.
+
+Luego definimos el método `failActions` en las rutas en las que haremos las validaciones. Este método hará referencia a su vez al método del controlador en el cual se procesará el manejo de los errores.
+
+Para mostrar los mensajes de error en la aplicación de una manera más amigable y controlada, usaremos el módulo _boom_, que está integrado en el core de Hapi.

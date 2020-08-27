@@ -48,4 +48,9 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
+process.on("unhandledException", (err) => {
+  console.error(err);
+  process.exit(1);
+});
+
 init();
