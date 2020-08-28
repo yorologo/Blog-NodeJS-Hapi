@@ -27,8 +27,13 @@ const acceso = (request, h) => {
   });
 };
 
+const inexistente = (request, h) => {
+  return h.view("404", {}, { layout: "error-layout" }).code(404);
+};
+
 module.exports = {
   home: home,
   register: registro,
   login: acceso,
+  notFound: inexistente,
 };

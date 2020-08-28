@@ -206,3 +206,11 @@ Para el manejo general de errores con Hapi usamos la instrucción `process.on( '
 Luego definimos el método `failActions` en las rutas en las que haremos las validaciones. Este método hará referencia a su vez al método del controlador en el cual se procesará el manejo de los errores.
 
 Para mostrar los mensajes de error en la aplicación de una manera más amigable y controlada, usaremos el módulo _boom_, que está integrado en el core de Hapi.
+
+### Visualización de errores
+
+Hasta ahora hemos estado mostrando un texto básico con los detalles de cada error capturado, pero en lo que se refiere a la apariencia, esta no es la forma más amigable de hacerlo ya que no le estamos dando mayor feedback al usuario sobre lo que ha pasado con su operación y lo estamos dejando en una calle sin salida.
+
+Lo que haremos en esta clase será utilizar una vista a la que pasaremos la información del error y la mostraremos de una manera que sea visualmente más amigable para los usuarios. Para esto, sustituiremos los llamados a `h.response( '<mensaje>' ).code( <código-error> )` por `h.view( '<ruta>', { <variables> } )`
+
+Para la visualización del `error 404`, incorporamos un nuevo layout, con su respectiva vista `404.hbs` y definimos una nueva ruta para los llamados a urls que no estén definidas en nuestra aplicación con `/{any*}`. Esta ruta se coloca al final de las definiciones para que solo se tome en cuenta si ninguna de las rutas anteriores se corresponde con el _request_. Al hacer el llamado a la vista en el controlador del sitio, debemos recordar indicar en el tercer argumento de la función view, el objeto con la propiedad _layout_ para indicar el nuevo _layou_ que mostrará el error.
