@@ -6,6 +6,7 @@ const inert = require("@hapi/inert");
 const path = require("path");
 const vision = require("vision");
 const routes = require("./routes");
+const site = require("./controllers/site");
 
 const init = async () => {
   const server = hapi.server({
@@ -23,7 +24,7 @@ const init = async () => {
 
   server.state("user", {
     ttl: 1000 * 60 * 60 * 24,
-    isSecure: process.env.NODE_ENV === 'prod',
+    isSecure: process.env.NODE_ENV === "prod",
     encoding: "base64json",
   });
 
@@ -37,6 +38,7 @@ const init = async () => {
     layoutPath: "views",
   });
 
+  server.ext("onPreResponse", site.fileNotFound);
   server.route(routes);
 
   await server.start();

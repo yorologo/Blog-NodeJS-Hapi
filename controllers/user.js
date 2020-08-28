@@ -2,6 +2,7 @@
 
 const boom = require("@hapi/boom");
 const { Users } = require("../models/index");
+const { register } = require("./site");
 
 const usuarioCreado = async (request, h) => {
   let result;
@@ -44,7 +45,17 @@ const validarUsuario = async (request, h) => {
 };
 
 const validacionFallida = async (request, h, error) => {
-  boom.badRequest("La validacion del usuario ha fallado", req.payload);
+  const templates = {
+    "/create-user": "register",
+    "/validate-user": "login",
+  };
+  return h
+    .view(templates[request.path], {
+      title: "Error de validacion",
+      error: "Por favor completa los campos requeridos",
+    })
+    .code(400)
+    .takeover();
 };
 
 const cerrarSesion = async (request, h) => {
