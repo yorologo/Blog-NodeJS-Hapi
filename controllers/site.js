@@ -27,6 +27,31 @@ const acceso = (request, h) => {
   });
 };
 
+const nuevaPregunta = (request, h) => {
+  if (!request.state.user) {
+    return h.redirect("/login");
+  }
+  return h.view("ask", {
+    title: "Nueva pregunta",
+    user: request.state.user,
+  });
+};
+
+const validacionFallida = async (request, h, error) => {
+  const templates = {
+    "/create-user": "register",
+    "/validate-user": "login",
+    "/create-question": "ask",
+  };
+  return h
+    .view(templates[request.path], {
+      title: "Error de validacion",
+      error: "Por favor completa los campos requeridos",
+    })
+    .code(400)
+    .takeover();
+};
+
 const inexistente = (request, h) => {
   return h.view("404", {}, { layout: "error-layout" }).code(404);
 };
@@ -43,6 +68,8 @@ module.exports = {
   home: home,
   register: registro,
   login: acceso,
+  ask: nuevaPregunta,
+  failValidation: validacionFallida,
   notFound: inexistente,
   fileNotFound: archivoInexistente,
 };

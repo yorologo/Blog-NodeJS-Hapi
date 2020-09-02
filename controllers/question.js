@@ -1,11 +1,11 @@
 "use strict";
 
-const { Questions } = require("../models/questions");
+const { Questions } = require("../models/index");
 
 const nuevaPregunta = async (request, h) => {
   let resultado;
   try {
-    result = await Questions.create(request.payload, request.state.user);
+    resultado = await Questions.create(request.payload, request.state.user);
   } catch (error) {
     console.error(error);
     return h

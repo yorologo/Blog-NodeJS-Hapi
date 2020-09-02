@@ -6,7 +6,14 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <form method="POST" action="" enctype="multipart/form-data">
+                    {{#with error}}
+                    <div class="container">
+                        <div class="alert alert-danger" role="alert">
+                            <strong>{{this}}</strong>
+                        </div>
+                    </div>
+                    {{/with}}
+                    <form method="POST" action="/create-question">
                         <div class="form-group">
                             <label for="title">Título</label>
                             <input type="text" class="form-control" id="title" name="title"
@@ -15,7 +22,7 @@
                         <div class="form-group">
                             <label for="description">Descripción</label>
                             <textarea class="form-control" id="description" name="description"
-                                placeholder="Ingrese la descripción" required></textarea>
+                                placeholder="Ingrese la descripción"></textarea>
                         </div>
                         <div class="text-center mt-5">
                             <button type="submit" class="btn btn-primary">
