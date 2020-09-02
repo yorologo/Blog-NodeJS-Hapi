@@ -47,6 +47,24 @@ const nuevaPregunta = (request, h) => {
   });
 };
 
+const verPregunta = async (request, h) => {
+  let data;
+  try {
+    data = await Questions.getOne(request.params.id);
+    if (!data) {
+      return inexistente(request, h);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+  return h.view("question", {
+    title: "Ver pregunta",
+    user: request.state.user,
+    question: data,
+    key: request.params.id,
+  });
+};
+
 const validacionFallida = async (request, h, error) => {
   const templates = {
     "/create-user": "register",
@@ -79,6 +97,7 @@ module.exports = {
   register: registro,
   login: acceso,
   ask: nuevaPregunta,
+  viewQuestion: verPregunta,
   failValidation: validacionFallida,
   notFound: inexistente,
   fileNotFound: archivoInexistente,
