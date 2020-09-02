@@ -222,3 +222,30 @@ El error 404 que ya estamos controlando es el que está relacionado con las ruta
 Básicamente lo que haremos será interceptar el error de _boom_ devuelto por _inert_ con `response.isBoom` y analizar si su código es 404 para redireccionar entonces a la vista apropiada. Para poder hacer la intercepción del error y alterar el _life cycle_ del request, es necesario indicar la siguiente instrucción `server.ext( 'onPreResponse', handler )` antes de la definición de las rutas en el _script_ principal.
 
 Cuando interceptamos el _life cycle_ de un _request_, debemos hacer un `.takeover()` para forzar la finalización del ciclo, y esto lo hacemos luego del `code(n)` en el llamado a la vista.
+
+### Repaso - Creación del modelo y controlador para preguntas
+
+En esta clase tomaremos la sección de preguntas de nuestro proyecto para hacer un repaso de lo aprendido hasta ahora.
+
+- A partir del _html_, tomamos el contenido del tag
+
+```html
+<main>...</main>
+```
+
+y lo extraemos a un archivo de _handlebars_ en la carpeta `/vistas`
+
+```js
+class MiModelo {
+  constructor(db) {
+    this.db = db;
+    this.ref = this.db.ref("/");
+    this.collection = this.ref.child("entidad");
+  }
+  async miMetodo(args) {
+    // --- instrucciones
+    return key;
+  }
+}
+module.exports = MiModelo;
+```

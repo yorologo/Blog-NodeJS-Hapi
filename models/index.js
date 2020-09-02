@@ -10,7 +10,9 @@ admin.initializeApp({
 
 const db = admin.database();
 const Users = require("./users");
+const Questions = require("./questions");
 
 module.exports = {
   Users: new Users(db),
+  Questions: new Questions(db),
 };

@@ -2,18 +2,19 @@
 
 const boom = require("@hapi/boom");
 const { Users } = require("../models/index");
-const { register } = require("./site");
 
 const usuarioCreado = async (request, h) => {
-  let result;
+  let resultado;
   try {
-    result = await Users.create(request.payload);
+    resultado = await Users.create(request.payload);
   } catch (error) {
     console.error(error);
-    return h.view("register", {
-      title: "Registro",
-      error: "Problemas creando el usuario",
-    });
+    return h
+      .view("register", {
+        title: "Registro",
+        error: "Problemas creando el usuario",
+      })
+      .code(500);
   }
   return h.view("register", {
     title: "Registro",
@@ -22,10 +23,10 @@ const usuarioCreado = async (request, h) => {
 };
 
 const validarUsuario = async (request, h) => {
-  let result;
+  let resultado;
   try {
-    result = await Users.validate(request.payload);
-    if (!result) {
+    resultado = await Users.validate(request.payload);
+    if (!resultado) {
       return h.view("login", {
         title: "Acceso",
         error: "Email y/o contraseña incorrecta",
@@ -39,8 +40,8 @@ const validarUsuario = async (request, h) => {
     });
   }
   return h.redirect("/").state("user", {
-    name: result.name,
-    email: result.email,
+    name: resultado.name,
+    email: resultado.email,
   });
 };
 
