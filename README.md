@@ -249,3 +249,15 @@ class MiModelo {
 }
 module.exports = MiModelo;
 ```
+
+### Listar las últimas preguntas en el home
+
+Para listar las últimas preguntas creadas en la base de datos de Firebase, agregamos un nuevo método en el modelo de las preguntas y usamos la función
+
+```js
+this.collection.limitToLast(n).once("value");
+```
+
+para obtener los **n** últimos registros al final de los datos.
+
+Luego debemos incluir el llamado al método anterior desde el controlador que maneja las rutas en la aplicación. Y finalmente sustituimos el bloque que renderiza las preguntas en la plantilla del _home_, `index.hbs`, por una nueva estructura de _handlebars_ llamada `{#each ... } ... {/each}`
