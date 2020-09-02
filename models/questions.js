@@ -20,8 +20,12 @@ class Questions {
 
   async getLast(amount) {
     const query = await this.collection.limitToLast(amount).once("value");
-    const data = query.val();
-    return data;
+    return query.val();
+  }
+
+  async getOne(id) {
+    const query = await this.collection.child(id).once("value");
+    return query.val();
   }
 }
 

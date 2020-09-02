@@ -82,6 +82,11 @@ module.exports = [
   },
   {
     method: "GET",
+    path: "/question/{id}",
+    handler: site.viewQuestion,
+  },
+  {
+    method: "GET",
     path: "/assets/{param*}",
     handler: {
       directory: {

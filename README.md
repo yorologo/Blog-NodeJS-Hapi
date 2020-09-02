@@ -261,3 +261,11 @@ this.collection.limitToLast(n).once("value");
 para obtener los **n** últimos registros al final de los datos.
 
 Luego debemos incluir el llamado al método anterior desde el controlador que maneja las rutas en la aplicación. Y finalmente sustituimos el bloque que renderiza las preguntas en la plantilla del _home_, `index.hbs`, por una nueva estructura de _handlebars_ llamada `{#each ... } ... {/each}`
+
+### Enrutamiento avanzado - visualizando una pregunta
+
+A través del enrutamiento avanzado de Hapi, recibiendo parámetros en el _request_, podemos tener una vista específica para mostrar los detalles de cada pregunta. Partimos de un archivo _html_ y creamos un método en el modelo de preguntas que ya teníamos antes. Este método nos permitirá obtener el objeto con los detalles de la pregunta individual según su ID.
+
+Al igual que en oportunidades anteriores, creamos una función en el controlador del sitio que maneje la ruta para la nueva vista. Creamos la plantilla con _handlebars_ trasladando el contenido del _tag_ main, desde la vista html original e incluimos las variables que recibimos desde el modelo.
+
+Definimos una nueva ruta en el archivo `routes.js`, indicando en la propiedad **path** los parámetros que esperamos recibir desde el controlador, es aquí donde estamos utilizando el enrutamiento avanzado. Finalmente actualizamos los enlaces en el layout principal colocando en _href_ la nueva ruta creada con la variable _key_ que dispones en cada iteración del ciclo `each` para las preguntas recientes.
