@@ -301,3 +301,24 @@ handlebars.registerHelper('nombreHelper', ( params..., options ) => {
 ```
 
 Un método de bloque es en esencia un _tag_ personalizado en _handlebars_, de tipo bloque `{#miHelper} ... {/miHelper}`, similar a `{#if}{/if}`, `{#with}{/with}`, `{#each}{/each}`, etc.
+
+### Métodos de servidor - respuesta correcta
+
+Los **métodos del servidor** en Hapi, son _métodos o funciones_ que pueden ser accedidos desde cualquier ruta de la aplicación de manera global.
+
+Lo primero que haremos será crear el método estándar en el modelo. En nuestro caso, el modelo de las preguntas.
+
+Luego creamos un archivo que contendrá los métodos del servidor y lo guardamos como `/lib/methods.js`. En este archivo requerimos el modelo donde hemos creado el método estándar y lo asociamos a un método propio, transladando todos los argumentos del método original.
+
+Finalmente requerimos en el script principal de la aplicación el archivo con los métodos del servidor y registramos cada m[etodo en el _server_ con la instrucción `server.method( '<nombre del método>', methods.<metodo creado> )`, ya luego en el código podremos acceder a estos métodos a través del objeto _request_ de Hapi.
+
+### Usando métodos de servidor
+
+Usar los métodos de servidor que creamos en la clase pasada es tan simple como acceder a `req.server.methods`:
+
+```
+req.server.methods.<nombre método>( args )
+
+```
+
+Esto lo hacemos en el controlador y de allí continuamos el ciclo normal de las rutas como hemos visto hasta ahora.

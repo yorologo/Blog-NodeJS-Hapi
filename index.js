@@ -7,6 +7,7 @@ const vision = require("vision");
 const routes = require("./routes");
 const handlebars = require("./lib/helpers");
 const site = require("./controllers/site");
+const methods = require("./lib/methods");
 
 const init = async () => {
   const server = hapi.server({
@@ -21,6 +22,8 @@ const init = async () => {
 
   await server.register(inert);
   await server.register(vision);
+
+  server.method("setAnswerRight", methods.setAnswerRight);
 
   server.state("user", {
     ttl: 1000 * 60 * 60 * 24,

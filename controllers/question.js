@@ -3,6 +3,10 @@
 const { Questions } = require("../models/index");
 
 const nuevaPregunta = async (request, h) => {
+  if (!request.state.user) {
+    return h.redirect("/login");
+  }
+
   let resultado;
   try {
     resultado = await Questions.create(request.payload, request.state.user);
@@ -19,7 +23,11 @@ const nuevaPregunta = async (request, h) => {
   return h.response(`Pregunta creada con el ID: ${resultado}`);
 };
 
-const respuestas = async (request, h) => {
+const responder = async (request, h) => {
+  if (!request.state.user) {
+    return h.redirect("/login");
+  }
+
   let resultado;
   try {
     resultado = await Questions.answer(request.payload, request.state.user);
@@ -30,7 +38,26 @@ const respuestas = async (request, h) => {
   return h.redirect(`/question/${request.payload.id}`);
 };
 
+const marcarRespuestaCorrecta = async (request, h) => {
+  if (!request.state.user) {
+    return h.redirect("/login");
+  }
+
+  let resultado;
+  try {
+    resultado = await request.server.methods.setAnswerRight(
+      request.params.questionId,
+      request.params.answerId,
+      request.state.user
+    );
+  } catch (error) {
+    console.error(error);
+  }
+  return h.redirect(`/question/${request.params.questionId}`);
+};
+
 module.exports = {
   newQuestion: nuevaPregunta,
-  answerQuestion: respuestas,
+  answerQuestion: responder,
+  setAnswerRight: marcarRespuestaCorrecta,
 };

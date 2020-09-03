@@ -7,7 +7,7 @@
 
 
     {{#each question.answers as |answer key|}}
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-{{#if answer.correct}}success{{else}}info{{/if}}" role="alert">
         <p>{{answer.text}}</p>
         <hr />
         <div class="container">
@@ -17,16 +17,25 @@
                 </div>
                 <div class="col-sm text-right">
                     {{#with user}}
-                        {{#ifEqualsUsers ../../question.owner.email ../../user.email}}
-                            <a class="btn btn-primary" href="#" role="button">Elegir respuesta correcta</a>
-                        {{/ifEqualsUsers}}
+                    {{#ifEqualsUsers ../../question.owner.email ../../user.email}}
+                    {{#unless answer.correct}}
+                    <a href="/mark-answer/{{../../../key}}/{{key}}" class="btn btn-primary" role="button">Elegir
+                        respuesta correcta</a>
+                    {{/unless}}
+                    {{/ifEqualsUsers}}
                     {{/with}}
+                    {{#if answer.correct}}
+                    <h3>
+                        <span class="badge badge-success">Respuesta correcta</span>
+                    </h3>
+                    {{/if}}
                 </div>
             </div>
         </div>
     </div>
     {{/each}}
 
+    {{#if user}}
     <div class="card mb-3">
         <div class="card-header">
             <h3>Responder</h3>
@@ -51,4 +60,7 @@
             </div>
         </div>
     </div>
+    {{else}}
+    <a href="/login"><button type="button" class="btn btn-primary btn-lg btn-block">Ingrese para responder</button></a>
+    {{/if}}
 </div>

@@ -81,6 +81,11 @@ module.exports = [
     handler: question.newQuestion,
   },
   {
+    method: "GET",
+    path: "/question/{id}",
+    handler: site.viewQuestion,
+  },
+  {
     method: "POST",
     options: {
       validate: {
@@ -96,8 +101,8 @@ module.exports = [
   },
   {
     method: "GET",
-    path: "/question/{id}",
-    handler: site.viewQuestion,
+    path: "/mark-answer/{questionId}/{answerId}",
+    handler: question.setAnswerRight,
   },
   {
     method: "GET",
