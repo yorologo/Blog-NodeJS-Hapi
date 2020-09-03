@@ -269,3 +269,15 @@ A través del enrutamiento avanzado de Hapi, recibiendo parámetros en el _reque
 Al igual que en oportunidades anteriores, creamos una función en el controlador del sitio que maneje la ruta para la nueva vista. Creamos la plantilla con _handlebars_ trasladando el contenido del _tag_ main, desde la vista html original e incluimos las variables que recibimos desde el modelo.
 
 Definimos una nueva ruta en el archivo `routes.js`, indicando en la propiedad **path** los parámetros que esperamos recibir desde el controlador, es aquí donde estamos utilizando el enrutamiento avanzado. Finalmente actualizamos los enlaces en el layout principal colocando en _href_ la nueva ruta creada con la variable _key_ que dispones en cada iteración del ciclo `each` para las preguntas recientes.
+
+### Enrutamiento avanzado - respondiendo una pregunta
+
+Para crear la funcionalidad de respuesta, creamos un método nuevo en el modelo de preguntas llamado `answer`. Este método nos permitirá insertar con _push_ el objeto con la respuesta individual para una pregunta que será almacenada en un arreglo _child_ llamado _answers_.
+
+Luego definimos el método respectivo en el controlador de las preguntas y creamos la ruta que manejará el envío de las respuestas desde el formulario.
+
+Es importante tener en cuenta que el ID de la pregunta que estamos respondiendo, corresponde a un _input_ de tipo _hidden_ en la vista, por lo que debemos asignar apropiadamente su valor a partir del _key_ recibido en la ruta.
+
+Finalmente, actualizamos la vista de detalles de pregunta, recordando que las respuestas son un arreglo en la base de datos de Firebase, por lo que deberemos recorrerlo igualmente con la instrucción `{#each ... } ... {/each}` de _handlebars_.
+
+Para el conteo de las respuestas crearemos un _helper_ personalizado de _handlebars_ y lo registraremos en el `index.js` con el método **.registerHelper( ‘<nombre helper>’, <función helper> )**. Los _helpers_ son funciones de JavaScript que están disponibles globalmente en la aplicación para ser incluídas en cualquiera de las vistas.

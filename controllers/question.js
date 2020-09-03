@@ -19,6 +19,18 @@ const nuevaPregunta = async (request, h) => {
   return h.response(`Pregunta creada con el ID: ${resultado}`);
 };
 
+const respuestas = async (request, h) => {
+  let resultado;
+  try {
+    resultado = await Questions.answer(request.payload, request.state.user);
+    console.log(`Respuesta creada: ${resultado}`);
+  } catch (error) {
+    console.error(error);
+  }
+  return h.redirect(`/question/${request.payload.id}`);
+};
+
 module.exports = {
   newQuestion: nuevaPregunta,
+  answerQuestion: respuestas,
 };
