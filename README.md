@@ -281,3 +281,23 @@ Es importante tener en cuenta que el ID de la pregunta que estamos respondiendo,
 Finalmente, actualizamos la vista de detalles de pregunta, recordando que las respuestas son un arreglo en la base de datos de Firebase, por lo que deberemos recorrerlo igualmente con la instrucción `{#each ... } ... {/each}` de _handlebars_.
 
 Para el conteo de las respuestas crearemos un _helper_ personalizado de _handlebars_ y lo registraremos en el `index.js` con el método **.registerHelper( ‘<nombre helper>’, <función helper> )**. Los _helpers_ son funciones de JavaScript que están disponibles globalmente en la aplicación para ser incluídas en cualquiera de las vistas.
+
+### Generando la lógica de la plantilla según si es creador o contribuidor
+
+En esta clase agregaremos la funcionalidad de marcado de las respuestas como correctas, para esto nos apoyaremos en otro _helper_ de _handlebars_ por lo que haremos primero una refactorización creando un archivo que contenga todos los _helpers_ en una función que retornará el objeto _handlebars_ personalizado.
+
+El tag `{#if}{/if}` de _handlebars_ no soporte comparar múltiples condiciones, por lo que tendremos que crear un helper de tipo _método de bloque_, que tiene una estructura parecida a la siguiente:
+
+```
+handlebars.registerHelper('nombreHelper', ( params..., options ) => {
+	if( <condición> ) {
+		// --- renderiza el contenido
+		return options.fn( this )
+	}
+	// --- no renderiza el contenido
+	return options.inverse( this )
+})
+
+```
+
+Un método de bloque es en esencia un _tag_ personalizado en _handlebars_, de tipo bloque `{#miHelper} ... {/miHelper}`, similar a `{#if}{/if}`, `{#with}{/with}`, `{#each}{/each}`, etc.

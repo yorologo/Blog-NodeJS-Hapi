@@ -1,17 +1,12 @@
 "use strict";
 
 const hapi = require("@hapi/hapi");
-const handlebars = require("handlebars");
 const inert = require("@hapi/inert");
 const path = require("path");
 const vision = require("vision");
 const routes = require("./routes");
+const handlebars = require("./lib/helpers");
 const site = require("./controllers/site");
-
-handlebars.registerHelper("answerCount", (answers) => {
-  const keys = Object.keys(answers);
-  return keys.length;
-});
 
 const init = async () => {
   const server = hapi.server({

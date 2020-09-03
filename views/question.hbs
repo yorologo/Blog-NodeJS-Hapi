@@ -15,7 +15,13 @@
                 <div class="col-sm">
                     Creada por <strong>{{answer.user.name}}</strong>
                 </div>
-                <div class="col-sm text-right"></div>
+                <div class="col-sm text-right">
+                    {{#with user}}
+                        {{#ifEqualsUsers ../../question.owner.email ../../user.email}}
+                            <a class="btn btn-primary" href="#" role="button">Elegir respuesta correcta</a>
+                        {{/ifEqualsUsers}}
+                    {{/with}}
+                </div>
             </div>
         </div>
     </div>
