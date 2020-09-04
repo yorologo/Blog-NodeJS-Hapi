@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     {{/with}}
-                    <form method="POST" action="/create-question">
+                    <form method="POST" action="/create-question" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Título</label>
                             <input type="text" class="form-control" id="title" name="title"
@@ -23,6 +23,14 @@
                             <label for="description">Descripción</label>
                             <textarea class="form-control" id="description" name="description"
                                 placeholder="Ingrese la descripción"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Imagen (PNG)</label>
+                            <div class="custom-file mb-3">
+                                <input type="file" class="custom-file-input" id="image" name="image" accept="image/png">
+                                <label class="custom-file-label" for="image">Elige un archivo...</label>
+                                <div class="invalid-feedback">No se acepta esta extension del archivo</div>
+                            </div>
                         </div>
                         <div class="text-center mt-5">
                             <button type="submit" class="btn btn-primary">
@@ -35,3 +43,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+        var fileName = document.getElementById("image").files[0].name;
+        var nextSibling = e.target.nextElementSibling
+        nextSibling.innerText = fileName
+    })
+</script>

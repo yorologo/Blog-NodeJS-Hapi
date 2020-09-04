@@ -1,15 +1,32 @@
 "use strict";
 
+const { v1: uuid } = require("uuid");
+const { writeFile } = require("fs");
+const { promisify } = require("util");
+const { join } = require("path");
 const { Questions } = require("../models/index");
+
+const write = promisify(writeFile);
 
 const nuevaPregunta = async (request, h) => {
   if (!request.state.user) {
     return h.redirect("/login");
   }
 
-  let resultado;
+  let resultado, filename;
   try {
-    resultado = await Questions.create(request.payload, request.state.user);
+    if (Buffer.from(request.payload.image)) {
+      filename = `${uuid()}.png`;
+      await write(
+        join(__dirname, "..", "public", "uploads", filename),
+        request.payload.image
+      );
+    }
+    resultado = await Questions.create(
+      request.payload,
+      request.state.user,
+      filename
+    );
   } catch (error) {
     console.error(error);
     return h
@@ -20,7 +37,8 @@ const nuevaPregunta = async (request, h) => {
       .code(500)
       .takeover();
   }
-  return h.response(`Pregunta creada con el ID: ${resultado}`);
+
+  return h.redirect(`/question/${resultado}`);
 };
 
 const responder = async (request, h) => {

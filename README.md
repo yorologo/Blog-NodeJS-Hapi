@@ -348,3 +348,26 @@ server.method( '<nombre método>', methods.<metodo>, {
   'generateTimeout': <timeout>
 }
 ```
+
+### Procesamiento de archivos - Aceptando imágenes
+
+En esta clase aprenderemos el manejo de archivos con Hapi. Agregaremos la posibilidad de anexar imágenes a las preguntas. Para esto será necesario modificar el método _create_ del modelo _questions.js_ para que guarde en la base de datos de Firebase el nombre de archivo.
+
+Será necesario también requerir algunos módulos adicionales, o algunas funciones desde esos módulos:
+
+```js
+const { writeFile } = require("fs");
+const { promisify } = require("util");
+const { join } = require("path");
+```
+
+Instalaremos y usaremos el módulo `uuid` en su versión `v1` para manejar nuestros propios nombres de archivo internamente y evitar la duplicidad.
+
+En el controlador de las preguntas incorporamos la lógica del manejo de archivos cuando se ha identificado la presencia del dato _image_ en el _buffer_ del con
+
+```
+Buffer.isBuffer( request.payload.image )
+
+```
+
+Este campo _image_ debemos incluirlo en el formulario, en la vista con el formulario de respuesta. Finalmente, al recibir el archivo a través del _buffer_ tendremos que escribirlo en el _filesystem_ del servidor, para lo cual usaremos la función _writeFile_ que hemos convertido en promesa y llamado `write( args )` con los argumentos correspondientes. Ya para mostrar la imagen en la vista cuando se haya recuperado, sólo bastará con incorporar la etiqueta `<img />` con la referencia al archivo almacenado.

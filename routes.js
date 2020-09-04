@@ -75,10 +75,15 @@ module.exports = [
   {
     method: "POST",
     options: {
+      payload: {
+        parse: true,
+        multipart: true,
+      },
       validate: {
         payload: joi.object({
           title: joi.string().min(5).required(),
           description: joi.string(),
+          image: joi.any().optional(),
         }),
         failAction: site.failValidation,
       },
