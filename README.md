@@ -322,3 +322,29 @@ req.server.methods.<nombre método>( args )
 ```
 
 Esto lo hacemos en el controlador y de allí continuamos el ciclo normal de las rutas como hemos visto hasta ahora.
+
+### Manejo del caché - Agregando el home al caché
+
+Internamente Hapi maneja el caché de las aplicaciones usando un módulo llamado **CatBox** que ya viene integrado en el _core_ del _framework_. Este módulo utiliza varios modos de _caching_; por defecto, Hapi implementa el _caché_ de memoria.
+
+También es posible ampliar las funcionalidades del uso de _caché_ en nuestras aplicaciones instalando y configurando otros módulos disponibles como: Redis, MemCache, etc.
+
+Para habilitar el uso de _caching_ **del lado del cliente** con Hapi basta con agregar la propiedad **options** en la definición de cada ruta y definir el tiempo de expiración con **expiresIn** y el tipo de privacidad con **privacy**.
+
+```
+'options': {
+  'expiresIn': <duracion>, // en milisegundos
+  'privacy'  : <tipo privacidad>
+}
+
+```
+
+Nos apoyaremos en los métodos de servidor que aprendimos en clases anteriores para definir el uso de _caché_ en el _backend_ de nuestra aplicación, ya que Hapi permite hacer _caching_ del resultados de este tipo de métodos al momento de registrarlos en el script principal:
+
+```
+server.method( '<nombre método>', methods.<metodo>, {
+'cache': {
+  'expiresIn': <duracion>,
+  'generateTimeout': <timeout>
+}
+```
