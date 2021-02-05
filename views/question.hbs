@@ -30,7 +30,7 @@
                     {{#with user}}
                     {{#ifEqualsUsers ../../question.owner.email ../../user.email}}
                     {{#unless answer.correct}}
-                    <a href="/mark-answer/{{../../../key}}/{{key}}" class="btn btn-primary" role="button">Elegir
+                    <a href="/mark-answer/{{../../../key}}/{{key}}" class="px-4 btn badge-pill btn-info" role="button">Elegir
                         respuesta correcta</a>
                     {{/unless}}
                     {{/ifEqualsUsers}}
@@ -55,14 +55,14 @@
             <div class="row">
                 <div class="col">
                     <form method="POST" action="/answer-question">
-                        <div class="form-group">
+                        <div class="form-group text-left">
                             <label for="answer">Respuesta</label>
                             <textarea class="form-control" id="answer" name="answer" placeholder="Ingrese la respuesta"
                                 required></textarea>
                             <input type="hidden" name="id" value="{{key}}" />
                         </div>
                         <div class="text-center mt-5">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="px-4 btn badge-pill btn-info">
                                 Enviar respuesta
                             </button>
                         </div>
@@ -72,6 +72,6 @@
         </div>
     </div>
     {{else}}
-    <a href="/login"><button type="button" class="btn btn-primary btn-lg btn-block">Ingrese para responder</button></a>
+    <a href="/login"><button type="button" class="px-4 btn badge-pill btn-info btn-lg btn-block">Ingrese para responder</button></a>
     {{/if}}
 </div>

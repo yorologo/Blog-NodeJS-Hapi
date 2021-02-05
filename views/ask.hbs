@@ -14,17 +14,17 @@
                     </div>
                     {{/with}}
                     <form method="POST" action="/create-question" enctype="multipart/form-data">
-                        <div class="form-group">
+                        <div class="form-group text-left">
                             <label for="title">Título</label>
                             <input type="text" class="form-control" id="title" name="title"
                                 placeholder="Ingrese el título" required />
                         </div>
-                        <div class="form-group">
+                        <div class="form-group text-left">
                             <label for="description">Descripción</label>
                             <textarea class="form-control" id="description" name="description"
                                 placeholder="Ingrese la descripción"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group text-left">
                             <label for="description">Imagen (PNG)</label>
                             <div class="custom-file mb-3">
                                 <input type="file" class="custom-file-input" id="image" name="image" accept="image/png">
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="text-center mt-5">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="px-4 btn badge-pill btn-info">
                                 Crear Pregunta
                             </button>
                         </div>
