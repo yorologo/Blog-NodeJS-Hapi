@@ -15,7 +15,7 @@ const nuevaPregunta = async (request, h) => {
 
   let resultado, filename;
   try {
-    if (Buffer.from(request.payload.image)) {
+    if (Buffer.isBuffer(request.payload.image)) {
       filename = `${uuid()}.png`;
       await write(
         join(__dirname, "..", "public", "uploads", filename),

@@ -69,7 +69,7 @@ const validacionFallida = async (request, h, error) => {
   return h
     .view(templates[request.path], {
       title: "Error de validacion",
-      error: "Usuario o contraseña incorrectos",
+      error: "Datos o credenciales rechazadas",
     })
     .code(400)
     .takeover();

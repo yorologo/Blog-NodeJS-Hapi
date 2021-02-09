@@ -9,7 +9,8 @@ class Questions {
 
   async create(info, user, filename) {
     const question = {
-      ...info,
+      description: info.description,
+      title: info.title,
     };
 
     if (filename) {

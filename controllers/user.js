@@ -29,7 +29,7 @@ const validarUsuario = async (request, h) => {
     if (!resultado) {
       return h.view("login", {
         title: "Acceso",
-        error: "Email y/o contraseña incorrecta",
+        error: "Email o contraseña incorrecta",
       });
     }
   } catch (error) {
