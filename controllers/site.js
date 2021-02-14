@@ -50,7 +50,7 @@ const verPregunta = async (request, h) => {
       return inexistente(request, h);
     }
   } catch (error) {
-    console.error(error);
+    server.log('error', error);
   }
   return h.view("question", {
     title: "Ver pregunta",

@@ -38,7 +38,7 @@ class Questions {
     const answer = {
       ...data,
     };
-    console.log(data, answer);
+    server.log('info', `${data}, ${answer}`);
     const answers = await this.collection
       .child(data.id)
       .child("answers")

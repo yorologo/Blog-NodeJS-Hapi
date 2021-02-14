@@ -28,7 +28,7 @@ const nuevaPregunta = async (request, h) => {
       filename
     );
   } catch (error) {
-    console.error(error);
+    server.log('error', error);
     return h
       .view("ask", {
         title: "Nueva pregunta",
@@ -49,9 +49,9 @@ const responder = async (request, h) => {
   let resultado;
   try {
     resultado = await Questions.answer(request.payload, request.state.user);
-    console.log(`Respuesta creada: ${resultado}`);
+    server.log('info', `Respuesta creada: ${resultado}`);
   } catch (error) {
-    console.error(error);
+    server.log('error', error);
   }
   return h.redirect(`/question/${request.payload.id}`);
 };
@@ -69,7 +69,7 @@ const marcarRespuestaCorrecta = async (request, h) => {
       request.state.user
     );
   } catch (error) {
-    console.error(error);
+    server.log('error', error);
   }
   return h.redirect(`/question/${request.params.questionId}`);
 };

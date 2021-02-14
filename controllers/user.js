@@ -8,7 +8,7 @@ const usuarioCreado = async (request, h) => {
   try {
     resultado = await Users.create(request.payload);
   } catch (error) {
-    console.error(error);
+    server.log('error', error);
     return h
       .view("register", {
         title: "Registro",
@@ -33,7 +33,7 @@ const validarUsuario = async (request, h) => {
       });
     }
   } catch (error) {
-    console.error(error);
+    server.log('error', error);
     return h.view("login", {
       title: "Acceso",
       error: "Problemas validando el usuario",

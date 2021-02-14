@@ -2,8 +2,9 @@
 
 const hapi = require("@hapi/hapi");
 const inert = require("@hapi/inert");
+const vision = require("@hapi/vision");
+const laabr = require("laabr");
 const path = require("path");
-const vision = require("vision");
 const routes = require("./routes");
 const handlebars = require("./lib/helpers");
 const site = require("./controllers/site");
@@ -22,6 +23,10 @@ const init = async () => {
 
   await server.register(inert);
   await server.register(vision);
+  await server.register({
+    plugin: laabr,
+    options: {},
+  });
 
   server.method("setAnswerRight", methods.setAnswerRight);
   server.method("getLast", methods.getLast, {
@@ -51,16 +56,15 @@ const init = async () => {
   server.route(routes);
 
   await server.start();
-  console.log(`Servidor lanzado en: ${server.info.uri}`);
 };
 
 process.on("unhandledRejection", (err) => {
-  console.error(err);
+  server.log('error', err);
   process.exit(1);
 });
 
 process.on("unhandledException", (err) => {
-  console.error(err);
+  server.log('error', err);
   process.exit(1);
 });
 
