@@ -27,6 +27,10 @@ const init = async () => {
     plugin: laabr,
     options: {},
   });
+  await server.register({
+    plugin: require("./lib/api"),
+    options: { prefix: "api" },
+  });
 
   server.method("setAnswerRight", methods.setAnswerRight);
   server.method("getLast", methods.getLast, {
@@ -59,12 +63,12 @@ const init = async () => {
 };
 
 process.on("unhandledRejection", (err) => {
-  server.log('error', err);
+  server.log("error", err);
   process.exit(1);
 });
 
 process.on("unhandledException", (err) => {
-  server.log('error', err);
+  server.log("error", err);
   process.exit(1);
 });
 
