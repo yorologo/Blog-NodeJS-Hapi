@@ -4,6 +4,8 @@ const hapi = require("@hapi/hapi");
 const inert = require("@hapi/inert");
 const vision = require("@hapi/vision");
 const crumb = require("@hapi/crumb");
+const scooter = require("@hapi/scooter");
+const blankie = require("blankie");
 const laabr = require("laabr");
 const path = require("path");
 const routes = require("./routes");
@@ -40,6 +42,19 @@ const init = async () => {
       },
     },
   });
+  await server.register([
+    scooter,
+    {
+      plugin: blankie,
+      options: {
+        defaultSrc: `'self' 'unsafe-inline'`,
+        styleSrc: `'self' 'unsafe-inline' https://cdn.jsdelivr.net`,
+        fontSrc: `'self' 'unsafe-inline' data:`,
+        defaultSrc: `'self' 'unsafe-inline' https://cdn.jsdelivr.net https://code.jquery.com`,
+        generateNonces: false,
+      },
+    },
+  ]);
 
   server.method("setAnswerRight", methods.setAnswerRight);
   server.method("getLast", methods.getLast, {

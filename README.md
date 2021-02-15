@@ -446,7 +446,7 @@ Donde `simple` es el nombre de la estrategia de autenticación, `basic` es el ti
 De esta manera, cuando se intente acceder a cualquiera de las rutas definidas para nuestra API REST, el navegador solicitará los datos de autenticación `usuario` y `password` y solo devolverá resultados útiles cuando las credenciales obtenidas de la autenticación sean válidas.
 
 
-# Seguridad básica - Asegurando el servidor contra CSRF
+### Seguridad básica - Asegurando el servidor contra CSRF
 
 Una de las vulnerabilidades más comunes en cualquier servidor o sitio web, es la Falsificación de Petición en Sitios Cruzados o  **CSRF**  por sus sigles del inglés Cross-site request forgery, que es un tipo de ataque en el que son transmitidos comandos no autorizados por un usuario del sitio web en el que deberíamos confiar.
 
@@ -475,3 +475,32 @@ await server.register({
 **Crumb**  utiliza una cookie para realizar la validación del  _token_  en cada una de las rutas de nuestra aplicación y la contrasta con el valor de un  _input_  de tipo  _hidden_  y de nombre  **crumb**, que debe estar presente en cada una de las vistas.
 
 La propiedad  `isSecure`  estaría entonces activa (en  _true_) cuando estemos en el entorno de producción e inactiva (en  _false_) mientras estemos en el entorno de desarrollo. Cuando no está presente el  _input_  de validación o su valor no es el correcto, el servidor devuelve un código de error  `403`  al browser, indicando que el acceso está prohibido o no está autorizado.
+
+
+### Seguridad básica - Asegurando el servidor contra XSS
+
+Otra de las vulnerabilidades que es muy común es  **XSS**  o Cross-site scripting, que es un tipo de ataque de seguridad por inyección en el que un atacante inyecta datos o algún  _script_  o códio malicioso desde otro sitio web diferente.
+
+Para manejar y corregir esta vulnerabilidad en la seguridad de nuestra aplicación implementaremos la estrategia de  **CSP**  o Content Security Policy para definir específicamente los orígenes desde los cuales vamos a permitir la ejecución de  _scripts_  o el acceso a recursos desde y hacia nuestra aplicación. Para esto usaremos un par de  _plugins_  adicionales:  **Blankie**  y  **scooter**  (scooter por ser dependencia de blankie).
+
+Instalamos ambos desde la terminal:  `npm i blankie scooter -S`  y requerimos ambos en nuestro  _script principal_.
+
+Al igual que los  _plugins_  anteriores, registramos  **blankie**  con las siguientes opciones:
+
+```py
+await server.register ([ scooter, {
+  'plugin': blankie,
+  'options': {
+    'defaultSrc': `'self' 'unself-inline' <urls adicionales>`,
+    'styleSrc': `'self' 'unself-inline' <urls adicionales>`,
+    'fontSrc': `'self' 'unself-inline' <urls adicionales>`,
+    'scriptSrc': `'self' 'unself-inline' <urls adicionales>`,
+    'generateNonces': false
+  }
+}])
+
+```
+
+Finalmente, al acceder a nuestra aplicación, notaremos que sólo serán permitidos los  _scripts_  y  _recursos_  que provengan desde las fuentes explícitamente definidas en las opciones indicadas al registrar el plugin, de lo contrario simplemente no se cargarán.
+
+_Si quieres aprender más sobre temas de Seguridad en la web, te invito a ver luego el  [Curso de Análisis de Vulnerabilidades Web con OWASP](https://platzi.com/cursos/seguridad/)._
