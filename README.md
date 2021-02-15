@@ -445,23 +445,22 @@ Donde `simple` es el nombre de la estrategia de autenticación, `basic` es el ti
 
 De esta manera, cuando se intente acceder a cualquiera de las rutas definidas para nuestra API REST, el navegador solicitará los datos de autenticación `usuario` y `password` y solo devolverá resultados útiles cuando las credenciales obtenidas de la autenticación sean válidas.
 
-
 ### Seguridad básica - Asegurando el servidor contra CSRF
 
-Una de las vulnerabilidades más comunes en cualquier servidor o sitio web, es la Falsificación de Petición en Sitios Cruzados o  **CSRF**  por sus sigles del inglés Cross-site request forgery, que es un tipo de ataque en el que son transmitidos comandos no autorizados por un usuario del sitio web en el que deberíamos confiar.
+Una de las vulnerabilidades más comunes en cualquier servidor o sitio web, es la Falsificación de Petición en Sitios Cruzados o **CSRF** por sus sigles del inglés Cross-site request forgery, que es un tipo de ataque en el que son transmitidos comandos no autorizados por un usuario del sitio web en el que deberíamos confiar.
 
-Para atender y corregir esta vulnerabilidad incorporaremos a nuestro proyecto un módulo adicional de Hapi llamado  **crumb**  que utiliza un  _token_  de validación para cada una de las rutas accedidas por los usuarios.
+Para atender y corregir esta vulnerabilidad incorporaremos a nuestro proyecto un módulo adicional de Hapi llamado **crumb** que utiliza un _token_ de validación para cada una de las rutas accedidas por los usuarios.
 
 **Implementación**
 
-Una vez instalado con  `npm i crumb -S`  procedemos a registrarlo en el scrip principal, de la misma manera que hemos hecho antes con  _good_.
+Una vez instalado con `npm i crumb -S` procedemos a registrarlo en el scrip principal, de la misma manera que hemos hecho antes con _good_.
 
 ```
 const crumb = require('crumb')
 ...
 
 await server.register({
-  'plugin': crumb, 
+  'plugin': crumb,
   'options': {
     'cookieOptions': {
       'isSecure': process.env.NODE_ENV === 'prod'
@@ -472,20 +471,19 @@ await server.register({
 
 ```
 
-**Crumb**  utiliza una cookie para realizar la validación del  _token_  en cada una de las rutas de nuestra aplicación y la contrasta con el valor de un  _input_  de tipo  _hidden_  y de nombre  **crumb**, que debe estar presente en cada una de las vistas.
+**Crumb** utiliza una cookie para realizar la validación del _token_ en cada una de las rutas de nuestra aplicación y la contrasta con el valor de un _input_ de tipo _hidden_ y de nombre **crumb**, que debe estar presente en cada una de las vistas.
 
-La propiedad  `isSecure`  estaría entonces activa (en  _true_) cuando estemos en el entorno de producción e inactiva (en  _false_) mientras estemos en el entorno de desarrollo. Cuando no está presente el  _input_  de validación o su valor no es el correcto, el servidor devuelve un código de error  `403`  al browser, indicando que el acceso está prohibido o no está autorizado.
-
+La propiedad `isSecure` estaría entonces activa (en _true_) cuando estemos en el entorno de producción e inactiva (en _false_) mientras estemos en el entorno de desarrollo. Cuando no está presente el _input_ de validación o su valor no es el correcto, el servidor devuelve un código de error `403` al browser, indicando que el acceso está prohibido o no está autorizado.
 
 ### Seguridad básica - Asegurando el servidor contra XSS
 
-Otra de las vulnerabilidades que es muy común es  **XSS**  o Cross-site scripting, que es un tipo de ataque de seguridad por inyección en el que un atacante inyecta datos o algún  _script_  o códio malicioso desde otro sitio web diferente.
+Otra de las vulnerabilidades que es muy común es **XSS** o Cross-site scripting, que es un tipo de ataque de seguridad por inyección en el que un atacante inyecta datos o algún _script_ o códio malicioso desde otro sitio web diferente.
 
-Para manejar y corregir esta vulnerabilidad en la seguridad de nuestra aplicación implementaremos la estrategia de  **CSP**  o Content Security Policy para definir específicamente los orígenes desde los cuales vamos a permitir la ejecución de  _scripts_  o el acceso a recursos desde y hacia nuestra aplicación. Para esto usaremos un par de  _plugins_  adicionales:  **Blankie**  y  **scooter**  (scooter por ser dependencia de blankie).
+Para manejar y corregir esta vulnerabilidad en la seguridad de nuestra aplicación implementaremos la estrategia de **CSP** o Content Security Policy para definir específicamente los orígenes desde los cuales vamos a permitir la ejecución de _scripts_ o el acceso a recursos desde y hacia nuestra aplicación. Para esto usaremos un par de _plugins_ adicionales: **Blankie** y **scooter** (scooter por ser dependencia de blankie).
 
-Instalamos ambos desde la terminal:  `npm i blankie scooter -S`  y requerimos ambos en nuestro  _script principal_.
+Instalamos ambos desde la terminal: `npm i blankie scooter -S` y requerimos ambos en nuestro _script principal_.
 
-Al igual que los  _plugins_  anteriores, registramos  **blankie**  con las siguientes opciones:
+Al igual que los _plugins_ anteriores, registramos **blankie** con las siguientes opciones:
 
 ```py
 await server.register ([ scooter, {
@@ -501,6 +499,42 @@ await server.register ([ scooter, {
 
 ```
 
-Finalmente, al acceder a nuestra aplicación, notaremos que sólo serán permitidos los  _scripts_  y  _recursos_  que provengan desde las fuentes explícitamente definidas en las opciones indicadas al registrar el plugin, de lo contrario simplemente no se cargarán.
+Finalmente, al acceder a nuestra aplicación, notaremos que sólo serán permitidos los _scripts_ y _recursos_ que provengan desde las fuentes explícitamente definidas en las opciones indicadas al registrar el plugin, de lo contrario simplemente no se cargarán.
 
-_Si quieres aprender más sobre temas de Seguridad en la web, te invito a ver luego el  [Curso de Análisis de Vulnerabilidades Web con OWASP](https://platzi.com/cursos/seguridad/)._
+_Si quieres aprender más sobre temas de Seguridad en la web, te invito a ver luego el [Curso de Análisis de Vulnerabilidades Web con OWASP](https://platzi.com/cursos/seguridad/)._
+
+### Depuración del proyecto
+
+Para depurar el código del proyecto solo hace falta iniciar el servidor de `node` con la siguiente instrucción:
+
+```
+node --inspect index.js
+
+```
+
+Se lanzará el servidor como de costumbre, pero adicionalmente se creará un servidor para la interfaz de depuración que podemos acceder desde el navegador _Google Chrome_.
+
+Específicamente se podrá ver un icono de NodeJS al inicio de la barra de menú del _Inspector de elementos_, y al hacer clic sobre este, se abrirá una consola de _DevTools_ dedicada para la depuración de Node. Agregamos luego el proyecto al _workspace_ y estamos listos para iniciar la depuración.
+
+Una alternativa a las DevTools de _Google Chrome_ es la funcuionalidad de depuración que viene integrada con el editor de _Microsoft_ VisualStudio Code. Esta funcionalidad está representada por un ícono particular en la barra de herramientas que asemeja un _bug_ con un círculo tachado. Al hacer clic sobre este icono, se habilita el panel con las opciones de configuración y ejecución de la depuración. Luego en la terminal integrada del editor se puede ver la consola de depuración.
+
+En ambas herramientas es posible establecer _breakpoints_, _run_ paso a paso, inspección de variables y otras funciones de depuración.
+
+Una tercera alternativa es mediante la implementación del módulo **hapi-dev-errors** dentro del propio código de la aplicación. Este módulo se instala, requiere y registra de la misma manera que Good y los otros módulos que hemos visto, pero en las opciones de registro indicaremos la propiedad: `showErrors`, a la que asignaremos un valor buleano de acuerdo con la variable de entorno `process.env.NODE_ENV` para asegurarnos de que los mensajes de depuración solo sean visibles en el entorno de desarrollo, no en producción. Con este módulo, los errores serán capturados y mostrados directamente en el navegador de una forma amigable y con algunos detalles para su depuración.
+
+### Ecosistema de Hapi
+
+En el sitio web de Hapi, hay una sección llamada Plugins en la que están organizados una gran cantidad de complementos según su funcionalidad de los cuales te menciono algunos que conozco y que pudieran serte de utilidad:
+
+- **Hapi pal**: permite hacer un _scafolding_ (o estructura de archivos base) de la cual partir en el desarrollo de tus proyectos.
+- **Apollo server**: permite crear una API de _GraphQL_
+- **Bell**: para el manejo simplificado de autenticación con redes sociales, Slack, Github, Dropbox, DigitalOcean, y muchos más.
+- **Lab**: permite hacer _tests_ del proyecto.
+- **Lout**: es un generador de documentación para Hapi.
+- **Hapi Swagger**: permite generar documentación de APIs compatible con _OpenAPI_.
+
+Te invito a completar tu proyecto y compertirlo con tus compañeros para intercambiar experiencias.  
+Recuerda que puedes dejarme tus comentarios, dudas y sugerencias en la sección de deiscusiones, o contactarme a través de mis redes sociales para cualquier consulta sobre cualquiera de los temas aprendidos en este curso.
+
+¡Felicidades!  
+De esta manera hemos llegado al final del curso de Hapi, ya puedes seguir adelante y tomar el examen.

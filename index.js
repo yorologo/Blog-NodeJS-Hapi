@@ -6,6 +6,7 @@ const vision = require("@hapi/vision");
 const crumb = require("@hapi/crumb");
 const scooter = require("@hapi/scooter");
 const blankie = require("blankie");
+const hapiDevErrors = require("hapi-dev-errors");
 const laabr = require("laabr");
 const path = require("path");
 const routes = require("./routes");
@@ -55,6 +56,12 @@ const init = async () => {
       },
     },
   ]);
+  await server.register({
+    plugin: hapiDevErrors,
+    options: {
+      showErrors: process.env.NODE_ENV !== "prod",
+    },
+  });
 
   server.method("setAnswerRight", methods.setAnswerRight);
   server.method("getLast", methods.getLast, {
