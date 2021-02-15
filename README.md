@@ -372,28 +372,75 @@ Buffer.isBuffer( request.payload.image )
 
 Este campo _image_ debemos incluirlo en el formulario, en la vista con el formulario de respuesta. Finalmente, al recibir el archivo a través del _buffer_ tendremos que escribirlo en el _filesystem_ del servidor, para lo cual usaremos la función _writeFile_ que hemos convertido en promesa y llamado `write( args )` con los argumentos correspondientes. Ya para mostrar la imagen en la vista cuando se haya recuperado, sólo bastará con incorporar la etiqueta `<img />` con la referencia al archivo almacenado.
 
+### Logging con Good - Monitoreando el servidor
+
+El proceso de registrar los eventos que suceden internamente en nuestra aplicación, también conocido como _logging_, es un aspecto técnico bastante habitual en entornos de producción de la vida real.
+
+Hapi incluye un método `.log( args )` tanto en el objeto `server`, como en `request` y en `response` que nos permiten un registro muy básico de eventos; sin embargo, la práctica recomendada es hacer _logging_ con un módulo adicional llamado **Good** y una dependencia para el manejo de transporters llamada **good-console**.
+
+Al igual que hemos hecho antes, una vez instalado el paquete de Good, será necesario requerirlo y registrarlo debidamente en el _script_ principal, pero en este caso lo haremos de una manera ligeramente diferente:
+
+```py
+...
+await server.register({
+  'plugin': good,
+  'options': {
+    'reporters': {
+      'console': [
+        {
+          'module': 'good-console'
+        },
+        'stdout' // --- salida estándard
+      ]
+    }
+  }
+})
+...
+
+```
+
+Luego de configurado el paquete, la implementación es tan simple como ejecutar la misma instrucción `server.log( '<etiqueta o tag>', <mensaje> )`, donde `<mensaje>` puede ser una cadena de texto o un objeto. Recuerda que el método log también está disponible en los objetos `request` y `response`.
+
 ### Creación de plugins - Teoría
 
-Habiendo completado toda la funcionalidad básica de nuestra aplicación, podemos pensar en extender algunas de estas funcionalidades para que otros desarrolladores puedan tener acceso desde sitios externos e integrarse con nuestro proyecto. Por lo general la solución más conveniente es ofrecer una API REST a través de un plugin personalizado.
+Habiendo completado toda la funcionalidad básica de nuestra aplicación, podemos pensar en extender algunas de estas funcionalidades para que otros desarrolladores puedan tener acceso desde sitios externos e integrarse con nuestro proyecto. Por lo general la solución más conveniente es ofrecer una _API REST_ a través de un **plugin** personalizado.
 
-En Hapi, un plugin es un Objeto que tiene básicamente la siguiente estructura:
+En Hapi, un **plugin** es un Objeto que tiene básicamente la siguiente estructura:
 
+```js
 const plugin = {
-'name' : 'miPlugin', // --- requerido
-'version' : '1.0.0', // --- opcional
-'register': function (server, options) {
-...
+  'name'    : 'miPlugin', // --- requerido
+  'version' : '1.0.0', // --- opcional
+  'register': function (server, options) {
+    ...
+  }
 }
-}
-En server se indica la referencia de cuál servidor se la añadirán las responsabilidades asociadas a este plugin.
 
-En opciones se pueden colocar parámetros externos como credenciales, condiciones especiales, entre otras.
+```
+
+- En `server` se indica la referencia de cuál servidor se la añadirán las responsabilidades asociadas a este _plugin_.
+- En `opciones` se pueden colocar parámetros externos como credenciales, condiciones especiales, entre otras.
 
 ### Creación de plugins - Implementando un API REST
+
 Partiremos de la estructura que vimos en la clase anterior para desarrollar nuestra API REST.
 
-En el método register del plugin definiremos tanto las rutas necesarias para acceder a nuestra API, como el handler que hace las veces de método del controlador para cada ruta. Además, en lugar de preparar y devolver una vista, devolveremos simplemente la salida por defecto de Hapi que es de formato JSON.
+En el método `register` del _plugin_ definiremos tanto las rutas necesarias para acceder a nuestra API, como el _handler_ que hace las veces de método del controlador para cada ruta. Además, en lugar de preparar y devolver una vista, devolveremos simplemente la salida por defecto de Hapi que es de formato _JSON_.
 
-Luego de tener definidas todas las rutas, los handlers con los parámetros esperados, las validaciones con Joi y las salidas de posibles errores con Boom, estamos listos para requerir y registrar nuestro plugin en el script principal de nuestra aplicación.
+Luego de tener definidas todas las rutas, los _handlers_ con los parámetros esperados, las validaciones con Joi y las salidas de posibles errores con Boom, estamos listos para requerir y registrar nuestro _plugin_ en el _script_ principal de nuestra aplicación.
 
-Adicionalmente, modificaremos la función fileNotFound(...) en el controlador de sitio para evitar que los errores 404 de nuestra API, se visualicen a través de la vista y en cambio lo hagan con JSON que es la salida por defecto.
+Adicionalmente, modificaremos la función `fileNotFound(...)` en el controlador de sitio para evitar que los errores `404` de nuestra API, se visualicen a través de la vista y en cambio lo hagan con _JSON_ que es la salida por defecto.
+
+### Estrategías de autenticación - Asegurando el API REST
+
+Con el objeto de restringir el acceso a nuestra API para que solo los usuarios registrados en nuestra base de datos puedan hacer usa de ella, implementaremos una estrategia de autenticación básica de Hapi, para lo cual será necesario instalar un módulo adicional llamado `hapi-auth-basic`.
+
+Una vez instalado, requerido y registrado el módulo `hapi-auth-basic` en el _script_ de nuestro _plugin_ de API REST, debemos implementarlo de la siguiente manera:
+
+```js
+server.auth.strategy("simple", "basic", { validate: validateAuth });
+```
+
+Donde `simple` es el nombre de la estrategia de autenticación, `basic` es el tipo (asociado al módulo que instalamos) y `validateAuth` es el método en el que definiremos la lógica de validación de los usuarios. Este último de forma muy similar a como lo hicimos antes en el método _validate_ del modelo `users` en nuestra aplicación.
+
+De esta manera, cuando se intente acceder a cualquiera de las rutas definidas para nuestra API REST, el navegador solicitará los datos de autenticación `usuario` y `password` y solo devolverá resultados útiles cuando las credenciales obtenidas de la autenticación sean válidas.

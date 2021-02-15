@@ -63,12 +63,12 @@ const init = async () => {
 };
 
 process.on("unhandledRejection", (err) => {
-  server.log("error", err);
+  console.error(err);
   process.exit(1);
 });
 
 process.on("unhandledException", (err) => {
-  server.log("error", err);
+  console.error(err);
   process.exit(1);
 });
 

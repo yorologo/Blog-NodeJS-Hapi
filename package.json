@@ -17,6 +17,7 @@
   "author": "yorologo",
   "license": "ISC",
   "dependencies": {
+    "@hapi/basic": "^6.0.0",
     "@hapi/boom": "^9.1.1",
     "@hapi/hapi": "^20.1.0",
     "@hapi/inert": "^6.0.3",
