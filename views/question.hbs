@@ -30,7 +30,8 @@
                     {{#with user}}
                     {{#ifEqualsUsers ../../question.owner.email ../../user.email}}
                     {{#unless answer.correct}}
-                    <a href="/mark-answer/{{../../../key}}/{{key}}" class="px-4 btn badge-pill btn-info" role="button">Elegir
+                    <a href="/mark-answer/{{../../../key}}/{{key}}" class="px-4 btn badge-pill btn-info"
+                        role="button">Elegir
                         respuesta correcta</a>
                     {{/unless}}
                     {{/ifEqualsUsers}}
@@ -62,6 +63,7 @@
                             <input type="hidden" name="id" value="{{key}}" />
                         </div>
                         <div class="text-center mt-3">
+                            <input type="hidden" name="crumb" value="{{crumb}}">
                             <button type="submit" class="px-4 btn badge-pill btn-info">
                                 Enviar respuesta
                             </button>
@@ -72,6 +74,7 @@
         </div>
     </div>
     {{else}}
-    <a href="/login"><button type="button" class="px-4 btn badge-pill btn-info btn-lg btn-block">Ingrese para responder</button></a>
+    <a href="/login"><button type="button" class="px-4 btn badge-pill btn-info btn-lg btn-block">Ingrese para
+            responder</button></a>
     {{/if}}
 </div>

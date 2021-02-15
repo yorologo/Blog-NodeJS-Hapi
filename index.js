@@ -3,6 +3,7 @@
 const hapi = require("@hapi/hapi");
 const inert = require("@hapi/inert");
 const vision = require("@hapi/vision");
+const crumb = require("@hapi/crumb");
 const laabr = require("laabr");
 const path = require("path");
 const routes = require("./routes");
@@ -30,6 +31,14 @@ const init = async () => {
   await server.register({
     plugin: require("./lib/api"),
     options: { prefix: "api" },
+  });
+  await server.register({
+    plugin: crumb,
+    options: {
+      cookieOptions: {
+        isSecure: process.env.NODE_ENV === "prod",
+      },
+    },
   });
 
   server.method("setAnswerRight", methods.setAnswerRight);
