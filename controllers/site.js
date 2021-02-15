@@ -81,7 +81,7 @@ const inexistente = (request, h) => {
 
 const archivoInexistente = (request, h) => {
   const response = request.response;
-  if (response.isBoom && response.output.statusCode === 404) {
+  if (!request.path.startsWith('/api') && response.isBoom && response.output.statusCode === 404) {
     return h.view("404", {}, { layout: "error-layout" }).code(404);
   }
   return h.continue;

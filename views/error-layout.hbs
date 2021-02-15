@@ -7,39 +7,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   <!-- Bootstrap CSS -->
-
-  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
   <link rel="stylesheet" href="/assets/css/custom.css" />
 
-  <title>PlatziOverflow - Error</title>
+  <title>My Blog - {{title}}</title>
 </head>
 
-<body class="bg-secondary">
-  <main role="main" class="container-fluid">
-    {{{content}}}
-  </main>
+<body class="text-center bg-light">
+  <div class="d-flex w-100 h-100 mx-auto flex-column">
+    <main role="main" class="inner">
+      <div class="container-fluid my-3 row align-items-center justify-content-center">
+        <div class="col-11 py-4">
+          {{{content}}}
+        </div>
+      </div>
+    </main>
 
-  <footer class="footer swatch-900 mt-4">
-    <div class="container">
-      <p class="text-center">
-        Blog NodeJS/Hapi -
-        <a href="https://github.com/yorologo" target="blank"><img src="/assets/images/myLogo.png"
-            class="small-logo" /></a>
-      </p>
-    </div>
-  </footer>
+    <footer class="bg-dark text-white p-3 mt-auto">
+      <div class="inner">Created by <a href="https://github.com/yorologo" class="text-white"><b>Yorologo</b></a>
+      </div>
+    </footer>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-    crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"></script>
 </body>
 
 </html>
