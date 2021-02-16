@@ -51,7 +51,7 @@ const init = async () => {
         defaultSrc: `'self' 'unsafe-inline'`,
         styleSrc: `'self' 'unsafe-inline' https://cdn.jsdelivr.net`,
         fontSrc: `'self' 'unsafe-inline' data:`,
-        defaultSrc: `'self' 'unsafe-inline' https://cdn.jsdelivr.net https://code.jquery.com`,
+        scriptSrc: `'self' 'unsafe-inline' https://cdn.jsdelivr.net https://code.jquery.com`,
         generateNonces: false,
       },
     },
