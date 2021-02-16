@@ -1,11 +1,9 @@
-<div class="container mt-4">
+<div class="container mt-4 text-left">
     <div class="alert alert-primary" role="alert">
         <div class="row">
             {{#with question.filename}}
             <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="/assets/uploads/{{this}}" class="card-img-top" alt="">
-                </div>
+                <img src="/assets/uploads/{{this}}" class="thumbnail" style="width: 18rem;">
             </div>
             {{/with}}
             <div class="col">
@@ -15,10 +13,10 @@
             </div>
         </div>
     </div>
-
+    <hr />
 
     {{#each question.answers as |answer key|}}
-    <div class="alert alert-{{#if answer.correct}}success{{else}}info{{/if}}" role="alert">
+    <div class="alert alert-{{#if answer.correct}}success{{else}}light border text-dark{{/if}}" role="alert">
         <p>{{answer.text}}</p>
         <hr />
         <div class="container">
@@ -26,7 +24,7 @@
                 <div class="col-sm">
                     Creada por <strong>{{answer.user.name}}</strong>
                 </div>
-                <div class="col-sm text-right">
+                <div class="col-sm">
                     {{#with user}}
                     {{#ifEqualsUsers ../../question.owner.email ../../user.email}}
                     {{#unless answer.correct}}
@@ -37,9 +35,9 @@
                     {{/ifEqualsUsers}}
                     {{/with}}
                     {{#if answer.correct}}
-                    <h3>
-                        <span class="badge badge-success">Respuesta correcta</span>
-                    </h3>
+                    <h4>
+                        <span class="px-4 badge badge-success">Respuesta correcta</span>
+                    </h4>
                     {{/if}}
                 </div>
             </div>
@@ -53,24 +51,20 @@
             <h3>Responder</h3>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <form method="POST" action="/answer-question">
-                        <div class="form-group text-left">
-                            <label for="answer">Respuesta</label>
-                            <textarea class="form-control" id="answer" name="answer" placeholder="Ingrese la respuesta"
-                                required></textarea>
-                            <input type="hidden" name="id" value="{{key}}" />
-                        </div>
-                        <div class="text-center mt-3">
-                            <input type="hidden" name="crumb" value="{{crumb}}">
-                            <button type="submit" class="px-4 btn badge-pill btn-info">
-                                Enviar respuesta
-                            </button>
-                        </div>
-                    </form>
+            <form method="POST" action="/answer-question">
+                <div class="form-group text-left">
+                    <label for="answer">Respuesta</label>
+                    <textarea class="form-control" id="answer" name="answer" placeholder="Ingrese la respuesta"
+                        required></textarea>
+                    <input type="hidden" name="id" value="{{key}}" />
                 </div>
-            </div>
+                <div class="text-center mt-3">
+                    <input type="hidden" name="crumb" value="{{crumb}}">
+                    <button type="submit" class="px-4 btn badge-pill btn-info">
+                        Enviar respuesta
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
     {{else}}

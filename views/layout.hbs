@@ -17,40 +17,39 @@
 <body class="text-center bg-light">
     <div class="d-flex w-100 h-100 mx-auto flex-column">
         <header class="mb-auto">
-            <nav class="navbar navbar-dark bg-primary">
-                <a href="/"><img src="/assets/images/logo.png" style="max-height: 60px;" /></a>
-                <ul class="nav">
-                    {{#if user}}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">Hola <b>{{user.name}}</b></a>
-                        <div class="dropdown-menu dropdown-menu-right px-2" aria-labelledby="navbarDropdownMenuLink">
-                            <a href="/ask" class="btn btn-light btn-block" role="button"
-                                aria-pressed="true">Preguntar</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="/logout" class="btn btn-danger btn-block" role="button"
-                                aria-pressed="true">Salir</a>
-                        </div>
-                    </li>
-                    {{else}}
-                    <li class="nav-item">
-                        <a href="/login" class="px-4 btn badge-pill btn-success btn-lg border border-white" role="button"
-                            aria-pressed="true">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/register" class="px-4 btn badge-pill btn-success btn-lg border border-white ml-2" role="button"
-                            aria-pressed="true">Registrarse</a>
-                    </li>
-                    {{/if}}
-                </ul>
+            <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+                <a href="/"><img src="/assets/images/logo.png" style="width: 8rem;" /></a>
+                {{#if user}}
+                <a class="nav-link dropdown-toggle text-white ml-auto" href="#" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Hola <b>{{user.name}}</b></a>
+                <div class="dropdown-menu dropdown-menu-right px-2" aria-labelledby="navbarDropdownMenuLink">
+                    <a href="/ask" class="btn btn-light btn-block" role="button" aria-pressed="true">Preguntar</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/logout" class="btn btn-danger btn-block" role="button" aria-pressed="true">Salir</a>
+                </div>
+                {{else}}
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse text-right collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="/login" class="px-4 btn badge-pill btn-success btn-lg border border-white"
+                                role="button" aria-pressed="true">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/register" class="px-4 btn badge-pill btn-success btn-lg border border-white ml-2"
+                                role="button" aria-pressed="true">Registrarse</a>
+                        </li>
+                    </ul>
+                </div>
+                {{/if}}
             </nav>
         </header>
 
         <main role="main" class="inner">
-            <div class="container-fluid my-3 row align-items-center justify-content-center">
-                <div class="col-11 py-4">
-                    {{{content}}}
-                </div>
+            <div class="container-sm px-4 py-3">
+                {{{content}}}
             </div>
         </main>
 
